@@ -11,19 +11,19 @@ let equalButton = document.querySelector('.equal')
 const del = document.querySelector('.del');
 
 function add() {
-    return parseInt(number1)+parseInt(number2);
+    return parseFloat(number1)+parseFloat(number2);
 }
 
 function Subtract() {
-    return number1 - number2;
+    return parseFloat(number1)- parseFloat(number2);
 }
 
 function multiply() {
-    return number1 * number2;
+    return parseFloat(number1)* parseFloat(number2);
 }
 
 function divide() {
-    return number1 / number2;
+    return parseFloat(number1)/ parseFloat(number2);
 }
 
 function power() {
