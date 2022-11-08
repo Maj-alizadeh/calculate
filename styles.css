@@ -4,8 +4,9 @@
     font-size: 18px;
 }
 
-.operator {
+.operator, .del, .equal {
     background-color: orange;
+    height: 50px;
 }
 .number {
     background-color: gray;

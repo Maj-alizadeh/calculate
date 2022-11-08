@@ -8,6 +8,7 @@ let display = document.querySelector('.display');
 let allClear = document.querySelector('.clear');
 let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.equal')
+const del = document.querySelector('.del');
 
 function add() {
     return parseInt(number1)+parseInt(number2);
@@ -96,6 +97,8 @@ operatorButtons.forEach(operator => operator.addEventListener('click', storeOper
 equalButton.addEventListener('click', equal);
 
 allClear.addEventListener('click',clear);
+
+del.addEventListener('click', () => display.value = display.value.slice(0,-1))
 
 
 
