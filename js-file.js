@@ -38,6 +38,8 @@ function operate() {
             return Subtract();
         case "x" :
             return multiply();
+        case "*":
+            return multiply();
         case "/" :
             if (number2 ==0) return " you can't divide by zero!"
             return divide();
@@ -90,6 +92,34 @@ function clear() {
     secondoperator= false;
 }
 
+function keyboarSupport(event) {
+    console.log(event.key)
+    if (isFinite(event.key) || event.key ===".") {
+        if (secondoperator===false) display.value += event.key;
+        else {
+            display.value = "";
+            secondoperator=false;
+            display.value += event.key;
+        }
+    }
+    else if (event.key.match(/[-+-/*]/) ) {
+        if (waitForNumber2) {
+            equal() ;
+            operator = event.key;
+        }
+        else {
+            number1 = display.value;
+            operator = event.key;
+            waitForNumber2 = true
+            display.value ="";
+        }
+    }
+    else if (event.key=== 'Backspace') display.value = display.value.slice(0,-1);
+    else if (event.key=== 'Enter') equal();
+    else if (event.key === 'Escape') clear();
+    else return;
+}
+
 numberButtons.forEach(number => number.addEventListener('click',displayNumber))
 
 operatorButtons.forEach(operator => operator.addEventListener('click', storeOperator))
@@ -99,6 +129,8 @@ equalButton.addEventListener('click', equal);
 allClear.addEventListener('click',clear);
 
 del.addEventListener('click', () => display.value = display.value.slice(0,-1))
+
+window.addEventListener('keydown',keyboarSupport)
 
 
 
