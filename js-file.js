@@ -1,6 +1,7 @@
 let number1 = 0;
 let number2 = 0;
 let operator = "";
+let secondoperator = false;
 let numberButtons = document.querySelectorAll('.number');
 let display = document.querySelector('.display');
 let allClear = document.querySelector('.clear');
@@ -43,31 +44,27 @@ function operate() {
 }
 
 function equal() {
-    number2 = display.value;
+    if (secondoperator===false) number2 = display.value;
     console.log(number1,operator,number2)
     display.value = operate();
     number1 = display.value;
+    secondoperator = true;
 }
 
 function displayNumber(event) {
+    if (secondoperator===false) display.value += event.target.textContent;
+    else {
+        display.value = "";
+        secondoperator=false;
         display.value += event.target.textContent;
+    }
+    
 }
 
 function storeOperator(event) {
-    // if (operator =="") {
-    //     number1 = display.value;
-    //     operator = event.target.textContent;
-    //     display.value = "";
-    // }
-    // else {
-    //     number2 = display.value;
-    //     display.value = operate();
-    //     number1 = display.value;
-    // }
-    number1 = display.value;
-    operator = event.target.textContent;
-    display.value ="";
-    console.log(number1, operator);
+        number1 = display.value;
+        operator = event.target.textContent;
+        display.value ="";
 }
 
 function clear() {
