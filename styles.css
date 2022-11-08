@@ -1,0 +1,47 @@
+.number, .operator, .display {
+    margin: 0;
+    height: 50px;
+    font-size: 18px;
+}
+
+.operator {
+    background-color: orange;
+}
+.number {
+    background-color: gray;
+}
+
+.display {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 300px;
+    border: solid black 5px;
+    border-radius: 15px;
+    padding: 5px;
+}
+.subContainer {
+    display: flex;
+}
+
+.numbersContainer {
+    flex: 3;
+    background-color: lightpink;
+    display: grid;
+    grid-template-columns:repeat(3,1fr);
+}
+
+.zero {
+    grid-column-end: span 2;
+}
+
+.operatorsContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
