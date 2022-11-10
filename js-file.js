@@ -2,13 +2,22 @@ let number1 = 0;
 let number2 = 0;
 let operator = "";
 let secondoperator = false;
-let waitForNumber2 = false;
-let numberButtons = document.querySelectorAll('.number');
-let display = document.querySelector('.display');
-let allClear = document.querySelector('.clear');
-let operatorButtons = document.querySelectorAll('.operator');
-let equalButton = document.querySelector('.equal')
+let gotNumber2 = false;
+
+const numberButtons = document.querySelectorAll('.number');
+const display = document.querySelector('.display');
+const allClear = document.querySelector('.clear');
+const operatorButtons = document.querySelectorAll('.operator');
+const equalButton = document.querySelector('.equal')
 const del = document.querySelector('.del');
+
+window.addEventListener('keydown',keyboarSupport)
+numberButtons.forEach(number => number.addEventListener('click',() => displayNumber(number.textContent)))
+operatorButtons.forEach(operator => operator.addEventListener('click',() => storeOperator(operator.textContent)))
+equalButton.addEventListener('click', equal);
+allClear.addEventListener('click',clear);
+del.addEventListener('click', () => display.value = display.value.slice(0,-1))
+
 
 function add() {
     return parseFloat(number1)+parseFloat(number2);
@@ -48,89 +57,69 @@ function operate() {
     }
 }
 
-function equal() {
-    console.log('hi')
-    if (secondoperator===false) number2 = display.value;
-    console.log(number1,operator,number2)
-    display.value = operate();
-    number1 = display.value;
-    secondoperator = true;
-    waitForNumber2 = false;
+function displayValue(input,clearScreen) {
+    if (clearScreen) display.value = ""
+    display.value += input;
 }
 
-function displayNumber(event) {
-    if (secondoperator===false) display.value += event.target.textContent;
+function equal() {
+    if (secondoperator===false) number2 = display.value;
+    displayValue(operate(),true) 
+    number1 = display.value;
+    secondoperator = true;
+}
+
+
+function displayNumber(target) {
+    //target = event.target.textContent
+    if (secondoperator===false) displayValue(target,false);
     else {
-        display.value = "";
         secondoperator=false;
-        display.value += event.target.textContent;
+        displayValue(target,true);
     }
     
 }
 
-function storeOperator(event) {
-    if (waitForNumber2) {
+//if number2 is available call equal() and calculate the operation
+function storeOperator(target) {
+    if (gotNumber2) {
         equal() ;
-        operator = event.target.textContent;
+        operator = target;
     }
     else {
         number1 = display.value;
-        operator = event.target.textContent;
-        waitForNumber2 = true
+        operator = target;
+        gotNumber2 = true
         display.value ="";
     }
-
-    
 }
+
+
 
 function clear() {
     display.value = '';
     number1 = 0;
     number2 = 0;
     operator = '';
-    waitForNumber2= false;
+    gotNumber2= false;
     secondoperator= false;
 }
 
 function keyboarSupport(event) {
     console.log(event.key)
-    if (isFinite(event.key) || event.key ===".") {
-        if (secondoperator===false) display.value += event.key;
-        else {
-            display.value = "";
-            secondoperator=false;
-            display.value += event.key;
-        }
-    }
-    else if (event.key.match(/[-+-/*]/) ) {
-        if (waitForNumber2) {
-            equal() ;
-            operator = event.key;
-        }
-        else {
-            number1 = display.value;
-            operator = event.key;
-            waitForNumber2 = true
-            display.value ="";
-        }
-    }
+    if (isFinite(event.key) || event.key ===".") displayNumber(event.key);
+    else if (event.key.match(/[-+/*]/) ) storeOperator(event.key);
     else if (event.key=== 'Backspace') display.value = display.value.slice(0,-1);
     else if (event.key=== 'Enter') equal();
     else if (event.key === 'Escape') clear();
     else return;
 }
 
-numberButtons.forEach(number => number.addEventListener('click',displayNumber))
 
-operatorButtons.forEach(operator => operator.addEventListener('click', storeOperator))
 
-equalButton.addEventListener('click', equal);
 
-allClear.addEventListener('click',clear);
 
-del.addEventListener('click', () => display.value = display.value.slice(0,-1))
 
-window.addEventListener('keydown',keyboarSupport)
 
 
 
